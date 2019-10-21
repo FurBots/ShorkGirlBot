@@ -6,11 +6,11 @@ const config = require('./utils/config.json');
 const { ping } = require('./commands/moderation/ping.js');
 const { kick, ban } = require('./commands/moderation/kickban.js');
 const { welcome } = require('./auto/welcome/welcome.js');
-const { help } = require('./commands/help/help.js');
-const { hug, pat, kiss } = require('./commands/interaction/actions.js')
-const { Gilgamesh } = require('./commands/games/civilization/leaderinfo.js')
+const { help, CivHelp } = require('./commands/help/help.js');
+const { hug, pat, kiss, hugme, patme, kissme } = require('./commands/interaction/actions.js')
+const { Gilgamesh, Alexander, Amanitore, Catherine, Chandragupta, Cleopatra, Cyrus } = require('./commands/games/civilization/leaderinfo.js')
 
-//Admin Commands
+//Commands
 bot.on('message', async msg => {
   if (msg.author.bot) return;
 
@@ -25,6 +25,11 @@ bot.on('message', async msg => {
       //THE HELP COMMAND
       case "commands":
         help(msg);
+      break;
+
+      //LIST HELP ABOUT WIKIS
+      case "wikis":
+        CivHelp(msg);
       break;
 
       //MAKES SURE THE BOT IS ONLINE
@@ -45,21 +50,7 @@ bot.on('message', async msg => {
       var member = msg.guild.member(mention)
         ban(msg, member)
       break;
-    }
-  });
 
-//Interaction Commands
-bot.on('message', async msg => {
-  if (msg.author.bot) return;
-
-  var prefix = '-'
-  if (msg.content.substring(0, prefix.length) != prefix) return;
-
-  var args = msg.content.slice(prefix.length).trim().split(/ +/g);
-  var command = args.shift().toLowerCase();
-
-  switch (command)
-    {
       case "hug":
         hug(msg);
       break;
@@ -71,25 +62,61 @@ bot.on('message', async msg => {
       case "kiss":
         kiss(msg);
       break;
+
+      case "hugme":
+        hugme(msg);
+      break;
+
+      case "patme":
+        patme(msg);
+      break;
+
+      case "kissme":
+        kissme(msg);
+      break;
     }
   });
 
-//CIV COMMANDS
-bot.on('message', async msg => {
-  if (msg.author.bot) return;
+//civ 6 commands
+  bot.on('message', async msg => {
+    if (msg.author.bot) return;
 
-  var prefix = '-'
-  if (msg.content.substring(0, prefix.length) != prefix) return;
+    var prefix = '-civ'
+    if (msg.content.substring(0, prefix.length) != prefix) return;
 
-  var args = msg.content.slice(prefix.length).trim().split(/ +/g);
-  var command = args.shift().toLowerCase();
+    var args = msg.content.slice(prefix.length).trim().split(/ +/g);
+    var command = args.shift().toLowerCase();
 
-  switch (command)
-    {
-      case "civ leader gilgamesh":
-        Gilgamesh(msg);
-      break;
-    }
+    switch (command)
+      {
+        case "alexander":
+          Alexander(msg);
+        break;
+
+        case "amanitore":
+          Amanitore(msg);
+        break;
+
+        case "catherine":
+          Catherine(msg);
+        break;
+
+        case "chandragupta":
+          Chandragupta(msg);
+        break;
+
+        case "cleopatra":
+          Cleopatra(msg);
+        break;
+
+        case "cyrus":
+          Cyrus(msg);
+        break;
+
+        case "gilgamesh":
+          Gilgamesh(msg);
+        break;
+      }
   });
 
 //Welcome Message
