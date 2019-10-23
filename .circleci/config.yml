@@ -1,0 +1,22 @@
+version: 2
+jobs:
+ build:
+   machine: true
+   branches:
+     only:
+       - master
+   working_directory: ~/app
+   steps:
+     - checkout
+     - run:
+         name: Create a new archive containing our project
+         command: |
+           tar -czvf ./bot.tar.gz *
+     - run:
+         name: Transfer File
+         command: |
+           scp -P $PORT bot.tar.gz $USER@$SERVER:/home/circleci/bots/$APPNAME/bot.tar.gz
+     - run:
+         name: Deploy
+         command: |
+           ssh -p $PORT -t $USER@$SERVER "/home/circleci/bots/$APPNAME/deploy.sh"
